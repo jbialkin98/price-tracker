@@ -25,12 +25,9 @@ class GetAmazonInfo:
 
         soup = BeautifulSoup(page.content, "lxml")
 
-        print(soup.prettify())
-
         try:
             title = soup.find("span", attrs={"id": 'productTitle'})
             title_string = title.string.strip()  # Title as a String Object
-            print(title_string)
             item_object["title"] = title_string
         except:
             item_object["title"] = "Not Found"
@@ -38,10 +35,9 @@ class GetAmazonInfo:
         try:
             current_price = soup.find("span", attrs={"class": 'a-offscreen'})
             current_price_string = current_price.string.strip()  # Price as a String Object
-            print(current_price_string)
             item_object["current_price"] = current_price_string
         except:
             item_object["current_price"] = "Not Found"
 
-        print(item_object)
         return item_object
+

@@ -26,6 +26,5 @@ class FileReader:
                 amazon_objects.append(amazon_object)
                 amazon_object = {}
 
-        print(amazon_objects)
-
         f.close()
+        return amazon_objects

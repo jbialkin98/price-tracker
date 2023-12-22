@@ -1,6 +1,6 @@
 from FileWriter import *
-from GetAmazonInfo import *
 from FileReader import *
+from GetAmazonInfo import *
 
 
 def print_items(amazon_objects):
@@ -13,8 +13,9 @@ def print_items(amazon_objects):
 
 def main():
     while True:
-        user_input = "0"
-        while user_input != "1" and user_input != "2" and user_input != "3" and user_input != "4":
+        user_input_not_valid = True
+
+        while user_input_not_valid:
             print("Choose from the options below:")
             print("1. Add a new item to track")
             print("2. Check for price drops")
@@ -24,6 +25,14 @@ def main():
 
             user_input = input("Enter your choice: ")
             print()
+
+            if user_input != "1" and user_input != "2" and user_input != "3" and user_input != "4":
+                user_input_not_valid = True
+                print("Please enter a valid input")
+                print()
+            else:
+                user_input_not_valid = False
+
         if user_input == "1":
             amazon_url = input("Paste the Amazon URL: ")
             file_writer = FileWriter()
@@ -38,13 +47,12 @@ def main():
             f = open("tracked_items.txt", "a")
             file_writer.writeItemInfo(item_title, item_price, f)
             f.close()
+            print("Item successfully added.")
+            print()
 
         elif user_input == "2":
             file_reader = FileReader()
             amazon_objects = file_reader.readFile()
-
-            print("Amazon objects: ")
-            print(amazon_objects)
 
             new_amazon_objects = []
 
@@ -58,17 +66,17 @@ def main():
 
                 old_price = float(item_price[1:])
                 new_price = float(new_amazon_object["current_price"][1:])
+
+                print(item_title)
                 if new_price < old_price:
-                    print(item_title)
                     print("The price has dropped from " + item_price + " to " + new_amazon_object["current_price"])
-                    print("Link: " + item_url)
-                    print()
+                else:
+                    print("The price of the item has stayed the same. It is still " + item_price)
+                print("Link: " + item_url)
+                print()
 
                 new_amazon_object["url"] = item_url
                 new_amazon_objects.append(new_amazon_object)
-
-            print("New Amazon objects: ")
-            print(new_amazon_objects)
 
             file_writer = FileWriter()
             f = open("tracked_items.txt", "w")

@@ -7,25 +7,26 @@ class FileWriter:
         """
         Writes the given URL to the file.
         """
-        # f = open("tracked_items.txt", "a")
         f.write("Link: ")
         f.write(url + "\n")
-
-        # f.close()
 
     def writeItemInfo(self, name, price, f):
         """
         Writes the given name and price to the file.
         """
-        # f = open("tracked_items.txt", "a")
         f.write("Name: ")
         f.write(name + "\n")
         f.write("Price: ")
         f.write(price + "\n")
         f.write("\n")
-        # f.close()
 
     def writeNewInfoToFile(self, amazon_objects, f):
+        """
+        Writes the information from each object into the file.
+        :param amazon_objects:
+        :param f:
+        :return:
+        """
         for amazon_object in amazon_objects:
             self.writeItemLink(amazon_object["url"], f)
             self.writeItemInfo(amazon_object["title"], amazon_object["current_price"], f)

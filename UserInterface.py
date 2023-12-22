@@ -23,17 +23,26 @@ def main():
     if user_input == "1":
         amazon_url = input("Paste the Amazon URL: ")
         file_writer = FileWriter()
-        file_writer.writeItemLink(amazon_url)
+        f = open("tracked_items.txt", "a")
+        file_writer.writeItemLink(amazon_url, f)
+        f.close()
 
         get_amazon_info = GetAmazonInfo()
         amazon_object = get_amazon_info.get_amazon_info(amazon_url)
         item_title = amazon_object["title"]
         item_price = amazon_object["current_price"]
-        file_writer.writeItemInfo(item_title, item_price)
+        f = open("tracked_items.txt", "a")
+        file_writer.writeItemInfo(item_title, item_price, f)
+        f.close()
 
     elif user_input == "2":
         file_reader = FileReader()
         amazon_objects = file_reader.readFile()
+
+        print("Amazon objects: ")
+        print(amazon_objects)
+
+        new_amazon_objects = []
 
         for item in amazon_objects:
             item_url = item["url"]
@@ -43,14 +52,23 @@ def main():
             get_amazon_info = GetAmazonInfo()
             new_amazon_object = get_amazon_info.get_amazon_info(item_url)
 
-            if new_amazon_object["current_price"] != item_price:
-                old_price = float(item_price[1:])
-                new_price = float(new_amazon_object["current_price"][1:])
-                if new_price < old_price:
-                    print(item_title)
-                    print("The price has dropped from " + item_price + " to " + new_amazon_object["current_price"])
-                    print("Link: " + item_url)
-                    print()
+            old_price = float(item_price[1:])
+            new_price = float(new_amazon_object["current_price"][1:])
+            if new_price < old_price:
+                print(item_title)
+                print("The price has dropped from " + item_price + " to " + new_amazon_object["current_price"])
+                print("Link: " + item_url)
+                print()
+
+            new_amazon_object["url"] = item_url
+            new_amazon_objects.append(new_amazon_object)
+
+        print("New Amazon objects: ")
+        print(new_amazon_objects)
+
+        file_writer = FileWriter()
+        f = open("tracked_items.txt", "w")
+        file_writer.writeNewInfoToFile(new_amazon_objects, f)
 
     elif user_input == "3":
         file_reader = FileReader()

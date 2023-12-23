@@ -6,7 +6,7 @@ class FileReader:
     Class for reading tracked items file.
     """
 
-    def readFile(self):
+    def read_file(self):
         get_amazon_info = GetAmazonInfo()
         amazon_objects = []
 

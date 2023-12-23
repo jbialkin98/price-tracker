@@ -22,6 +22,7 @@ def print_item_names(amazon_objects):
 
 def main():
     while True:
+        user_input = ""
         user_input_not_valid = True
 
         while user_input_not_valid:
@@ -44,7 +45,12 @@ def main():
                 user_input_not_valid = False
 
         if user_input == "1":
-            amazon_url = input("Paste the Amazon URL: ")
+            amazon_url = input("Paste the Amazon URL or type '0' to go back: ")
+
+            if amazon_url == "0":
+                print()
+                continue
+
             file_writer = FileWriter()
             f = open("tracked_items.txt", "a")
             file_writer.writeItemLink(amazon_url.strip(), f)
@@ -62,7 +68,7 @@ def main():
 
         elif user_input == "2":
             file_reader = FileReader()
-            amazon_objects = file_reader.readFile()
+            amazon_objects = file_reader.read_file()
 
             new_amazon_objects = []
 
@@ -94,23 +100,29 @@ def main():
 
         elif user_input == "3":
             file_reader = FileReader()
-            amazon_objects = file_reader.readFile()
+            amazon_objects = file_reader.read_file()
             print_items(amazon_objects)
 
         elif user_input == "4":
             file_reader = FileReader()
-            amazon_objects = file_reader.readFile()
+            amazon_objects = file_reader.read_file()
             num = print_item_names(amazon_objects)
             num_to_remove = 0
 
             valid_num_to_remove = False
             while not valid_num_to_remove:
-                num_to_remove = input("Enter the number of the item you would like to remove: ")
+                num_to_remove = input("Enter the number of the item you would like to remove or type '0' to go back: ")
+                if num_to_remove == "0":
+                    break
                 if 1 <= int(num_to_remove) <= num:
                     valid_num_to_remove = True
                 else:
                     print("Please enter a valid number")
                     print()
+
+            if num_to_remove == "0":
+                print()
+                continue
 
             amazon_objects.pop(int(num_to_remove) - 1)
             file_writer = FileWriter()

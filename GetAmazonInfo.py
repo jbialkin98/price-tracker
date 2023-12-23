@@ -28,16 +28,16 @@ class GetAmazonInfo:
         try:
             title = soup.find("span", attrs={"id": 'productTitle'})
             title_string = title.string.strip()  # Title as a String Object
-            item_object["title"] = title_string
+            item_object["name"] = title_string
         except:
-            item_object["title"] = "Not Found"
+            item_object["name"] = "Not Found"
 
         try:
             current_price = soup.find("span", attrs={"class": 'a-offscreen'})
             current_price_string = current_price.string.strip()  # Price as a String Object
-            item_object["current_price"] = current_price_string
+            item_object["price"] = current_price_string
         except:
-            item_object["current_price"] = "Not Found"
+            item_object["price"] = "Not Found"
 
         return item_object
 

@@ -29,5 +29,5 @@ class FileWriter:
         """
         for amazon_object in amazon_objects:
             self.writeItemLink(amazon_object["url"], f)
-            self.writeItemInfo(amazon_object["title"], amazon_object["current_price"], f)
+            self.writeItemInfo(amazon_object["name"], amazon_object["price"], f)
         f.close()
